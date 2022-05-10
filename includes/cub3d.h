@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/09 18:56:57 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/10 01:33:44 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <X11/keysym.h>
 
 # include "libft.h"
+# include "input_handler.h"
+# include "utils.h"
 
 # ifndef WIN_WIDTH
 #  define WIN_WIDTH 1920
@@ -32,13 +34,30 @@
 #  define WIN_HEIGHT 1080
 # endif
 
+typedef struct s_image
+{
+	void	*img;
+	int		x;
+	int		y;
+}	t_image;
+
+typedef struct s_map
+{
+	t_image	north;
+	t_image	south;
+	t_image west;
+	t_image east;
+	int		floor_color[3];
+	int		ceiling_color[3];
+	int		**map;
+	int		height;
+}	t_map;
+
 typedef struct s_cub3d
 {
 	void	*mlx;
 	void	*win;
+	t_map	map;
 }	t_cub3d;
-
-// Utility functions
-void	exit_error(char *err);
 
 #endif
