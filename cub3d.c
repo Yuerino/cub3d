@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:50:13 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/09 18:57:17 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/10 00:19:34 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ int	main(int argc, char **argv)
 {
 	t_cub3d	data;
 
-	(void)argv;
 	if (argc != 2)
-		exit_error("Usage: ./cub3d [map file]");
-	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
+		exit_error("Usage: ./cub3d [map file]", NULL);
+	init_cub3d(&data, argv[1]);
 	mlx_loop(data.mlx);
+	free_data(&data);
 	return (0);
 }
