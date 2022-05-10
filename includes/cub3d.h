@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 01:33:44 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:42:18 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,20 @@ typedef struct s_map
 	int		height;
 }	t_map;
 
+typedef struct s_player
+{
+	int			x;
+	int			y;
+	double		dir_x;
+	double		dir_y;
+}	t_player;
+
 typedef struct s_cub3d
 {
-	void	*mlx;
-	void	*win;
-	t_map	map;
+	void		*mlx;
+	void		*win;
+	t_map		map;
+	t_player	player;
 }	t_cub3d;
 
 #endif
