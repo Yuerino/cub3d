@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:50:13 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 02:44:22 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 04:11:16 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,22 @@ static void	print_data(t_cub3d *data)
 }
 
 /**
+ * @brief Test image_dup function by duplicating north wall texture image
+ * and put it in middle of the window
+ * @note Development usage only, delete when submit
+ */
+static void	image_dup_test(t_cub3d *data)
+{
+	void	*new_img;
+
+	new_img = image_dup(data->mlx, data->map.north.img_ptr);
+	mlx_destroy_image(data->mlx, data->map.north.img_ptr);
+	data->map.north.img_ptr = NULL;
+	mlx_put_image_to_window(data->mlx, data->win, new_img, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	mlx_destroy_image(data->mlx, new_img);
+}
+
+/**
  * @brief Free data and exit program
  * @note For development usage, delete or move it later
  */
@@ -52,6 +68,7 @@ int	main(int argc, char **argv)
 		exit_error("Usage: ./cub3d [map file]", NULL);
 	init_cub3d(&data, argv[1]);
 	print_data(&data);
+	image_dup_test(&data);
 	mlx_hook(data.win, 17, 0, close_game, &data);
 	mlx_loop(data.mlx);
 	return (0);
