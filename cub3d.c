@@ -6,11 +6,32 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:50:13 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 23:40:57 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 02:44:22 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/**
+ * @brief Debug function to print all data in struct
+ * @note Development usage only, delete when submit
+ */
+static void	print_data(t_cub3d *data)
+{
+	mlx_put_image_to_window(data->mlx, data->win, data->map.north.img_ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->map.south.img_ptr, data->map.north.width, 0);
+	mlx_put_image_to_window(data->mlx, data->win, data->map.west.img_ptr, 0, data->map.north.height);
+	mlx_put_image_to_window(data->mlx, data->win, data->map.east.img_ptr, data->map.west.width, data->map.south.height);
+	printf("floor color: R: %d, G: %d, B: %d\n", data->map.floor_color[0], data->map.floor_color[1], data->map.floor_color[2]);
+	printf("ceiling color: R: %d, G: %d, B: %d\n", data->map.ceiling_color[0], data->map.ceiling_color[1], data->map.ceiling_color[2]);
+	printf("Map height: %d\n", data->map.height);
+	printf("Player position: x: %d, y: %d, dir_x: %f, dir_y: %f\n", data->player.x, data->player.y, data->player.dir_x, data->player.dir_y);
+	printf("Map data:\n");
+	for (int i=0;data->map.data[i];i++)
+	{
+		printf("%s\n", data->map.data[i]);
+	}
+}
 
 /**
  * @brief Free data and exit program
@@ -30,6 +51,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		exit_error("Usage: ./cub3d [map file]", NULL);
 	init_cub3d(&data, argv[1]);
+	print_data(&data);
 	mlx_hook(data.win, 17, 0, close_game, &data);
 	mlx_loop(data.mlx);
 	return (0);
