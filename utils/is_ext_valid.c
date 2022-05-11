@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 18:50:15 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 22:23:55 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:37:35 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_ext_valid(char *filename, char *ext)
 	char	*file_ext;
 
 	file_ext = ft_strrchr(filename, '.');
-	if (!ext || ft_strncmp(file_ext, ext, 5))
+	if (!ext || ft_strncmp(file_ext, ext, ft_strlen(ext) + 1))
 		return (0);
 	return (1);
 }
