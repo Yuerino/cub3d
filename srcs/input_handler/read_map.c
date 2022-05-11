@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 02:15:09 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 02:51:06 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	read_map_line(t_cub3d *data, char *line, int y)
 		data->map.data[y][x] = c;
 		x++;
 	}
-	if (data->player.x > 0)
+	if (data->player.x > 0 && data->player.y < 0)
 		data->player.y = y;
 	free(line);
 	return (1);
@@ -129,6 +129,7 @@ int	read_map(t_cub3d *data, char *line, int fd)
 		y++;
 		line = get_next_line(fd);
 	}
+	data->map.height = y;
 	// TODO: check map valid here
 	return (1);
 }
