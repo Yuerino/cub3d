@@ -1,7 +1,7 @@
 NAME	= cub3d
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 
 MINILIBX_DIR	= minilibx-linux
 LIBFT_DIR		= libft
@@ -18,14 +18,14 @@ SRCS	= cub3d.c \
 		$(addprefix $(UTIL_PATH),$(UTIL_SRCS))
 
 IH_PATH	= srcs/input_handler/
-IH_SRCS	= read.c init.c
+IH_SRCS	= init.c read.c read_map.c
 
 UTIL_PATH		= utils/
-UTIL_SRCS		= error.c free_carray.c
+UTIL_SRCS		= error.c carray.c image_dup.c is_color_valid.c is_ext_valid.c is_nbr.c
 
 RM		= rm -f
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re norm
 
 $(NAME): $(SRCS)
 		@make -C $(MINILIBX_DIR)
@@ -44,3 +44,6 @@ fclean: clean
 		@make fclean -C $(LIBFT_DIR)
 
 re: fclean all
+
+norm:
+		@norminette $(SRCS) includes/*
