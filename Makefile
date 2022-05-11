@@ -20,13 +20,19 @@ IFLAGS	= -I$(IDIR) -I$(LIBFT_DIR) -I$(MINILIBX_DIR) -I$(X11_INC)
 
 SRCS	= cub3d.c \
 		$(addprefix $(IH_PATH),$(IH_SRCS)) \
-		$(addprefix $(UTIL_PATH),$(UTIL_SRCS))
+		$(addprefix $(UTIL_PATH),$(UTIL_SRCS)) \
+		$(addprefix $(RD_PATH),$(RD_SRCS))
+
 
 IH_PATH	= srcs/input_handler/
 IH_SRCS	= init.c read.c read_map.c
 
+RD_PATH	= srcs/rendering/
+RD_SRCS	= putimg.c key_hook.c
+
 UTIL_PATH		= utils/
-UTIL_SRCS		= error.c carray.c image_dup.c is_color_valid.c is_ext_valid.c is_nbr.c
+UTIL_SRCS		= error.c carray.c image_dup.c is_color_valid.c is_ext_valid.c \
+ is_nbr.c
 
 RM		= rm -f
 

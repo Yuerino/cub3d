@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:50:13 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 04:11:16 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:03:28 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	print_data(t_cub3d *data)
 	printf("floor color: R: %d, G: %d, B: %d\n", data->map.floor_color[0], data->map.floor_color[1], data->map.floor_color[2]);
 	printf("ceiling color: R: %d, G: %d, B: %d\n", data->map.ceiling_color[0], data->map.ceiling_color[1], data->map.ceiling_color[2]);
 	printf("Map height: %d\n", data->map.height);
-	printf("Player position: x: %d, y: %d, dir_x: %f, dir_y: %f\n", data->player.x, data->player.y, data->player.dir_x, data->player.dir_y);
+	//printf("Player position: x: %d, y: %d, dir_x: %f, dir_y: %f\n", data->player.x, data->player.y, data->player.dir_x, data->player.dir_y);
 	printf("Map data:\n");
 	for (int i=0;data->map.data[i];i++)
 	{
@@ -53,7 +53,7 @@ static void	image_dup_test(t_cub3d *data)
  * @brief Free data and exit program
  * @note For development usage, delete or move it later
  */
-static int	close_game(t_cub3d *data)
+int	close_game(t_cub3d *data)
 {
 	free_data(data);
 	exit(EXIT_SUCCESS);
@@ -68,8 +68,10 @@ int	main(int argc, char **argv)
 		exit_error("Usage: ./cub3d [map file]", NULL);
 	init_cub3d(&data, argv[1]);
 	print_data(&data);
+	draw(&data);
 	image_dup_test(&data);
 	mlx_hook(data.win, 17, 0, close_game, &data);
+	mlx_key_hook(data.win, catch_key, (void *) &data);
 	mlx_loop(data.mlx);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 21:18:29 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:03:12 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "libft.h"
 # include "input_handler.h"
 # include "utils.h"
+# include "rendering.h"
 
 # ifndef WIN_WIDTH
 #  define WIN_WIDTH 1920
@@ -55,8 +56,8 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	int			x;
-	int			y;
+	float			x;
+	float			y;
 	double		dir_x;
 	double		dir_y;
 }	t_player;
@@ -65,8 +66,11 @@ typedef struct s_cub3d
 {
 	void		*mlx;
 	void		*win;
+	t_image		img;
 	t_map		map;
 	t_player	player;
 }	t_cub3d;
+
+int	close_game(t_cub3d *data);
 
 #endif
