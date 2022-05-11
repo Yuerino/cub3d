@@ -1,7 +1,11 @@
 NAME	= cub3d
 
+WIN_WIDTH	= 1920
+WIN_HEIGHT	= 1080
+
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror $(DFLAGS) -g
+DFLAGS	= -D WIN_WIDTH=$(WIN_WIDTH) -D WIN_HEIGHT=$(WIN_HEIGHT)
 
 MINILIBX_DIR	= minilibx-linux
 LIBFT_DIR		= libft
@@ -27,7 +31,7 @@ RM		= rm -f
 
 .PHONY: all clean fclean re norm
 
-$(NAME): $(SRCS)
+$(NAME): $(SRCS) includes/* Makefile
 		@make -C $(MINILIBX_DIR)
 		@make extra -C $(LIBFT_DIR)
 		$(CC) $(CFLAGS) $(SRCS) $(IFLAGS) $(LFLAGS) -o $(NAME)
