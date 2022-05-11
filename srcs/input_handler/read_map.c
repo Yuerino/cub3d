@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 12:12:16 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 16:38:49 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ static int	read_map_line(t_cub3d *data, char *line, int y)
 		data->map.data[y][x] = c;
 		x++;
 	}
+	if (x > data->map.max_width)
+		data->map.max_width = x;
 	if (data->player.x > 0 && data->player.y < 0)
 		data->player.y = (double)y;
 	free(line);
