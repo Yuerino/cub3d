@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 23:00:07 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 02:46:25 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	init_map(t_map *map)
 static void	init_player(t_player *player)
 {
 	player->x = -1;
-	player->y = 1;
+	player->y = -1;
 	player->dir_x = 0.0f;
 	player->dir_y = 0.0f;
 }
