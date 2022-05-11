@@ -14,7 +14,8 @@ X11_LIB			= /usr/X11/lib
 
 LFLAGS	= -L$(LIBFT_DIR) -L$(MINILIBX_DIR) -L$(X11_LIB) -lft -lmlx -lXext -lX11 -lm
 
-IDIR	= includes
+HEADERS	= cub3d.h input_handler.h utils.h
+IDIR	= includes/
 IFLAGS	= -I$(IDIR) -I$(LIBFT_DIR) -I$(MINILIBX_DIR) -I$(X11_INC)
 
 SRCS	= cub3d.c \
@@ -31,7 +32,7 @@ RM		= rm -f
 
 .PHONY: all clean fclean re norm
 
-$(NAME): $(SRCS) includes/* Makefile
+$(NAME): $(SRCS) $(addprefix $(IDIR),$(HEADERS)) Makefile
 		@make -C $(MINILIBX_DIR)
 		@make extra -C $(LIBFT_DIR)
 		$(CC) $(CFLAGS) $(SRCS) $(IFLAGS) $(LFLAGS) -o $(NAME)
@@ -50,4 +51,4 @@ fclean: clean
 re: fclean all
 
 norm:
-		@norminette $(SRCS) includes/*
+		@norminette $(SRCS) $(addprefix $(IDIR),$(HEADERS))
