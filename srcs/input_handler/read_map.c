@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 02:51:06 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 03:50:08 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	read_map_line(t_cub3d *data, char *line, int y)
 	data->map.data = carray_expand(data->map.data);
 	if (!data->map.data)
 		return (print_read_map_error(data, NULL, "carray_expand", line));
-	data->map.data[y] = ft_calloc(sizeof(char), ft_strlen(line));
+	data->map.data[y] = ft_calloc(sizeof(char), ft_strlen(line) + 1);
 	if (!data->map.data[y])
 		return (print_read_map_error(data, NULL, "ft_calloc", line));
 	x = 0;
