@@ -1,6 +1,7 @@
-*.cub
+./*.cub
 cub3d
 *.o
 */*.o
 *.a
 */*.a
+*.dSYM
