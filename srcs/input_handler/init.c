@@ -6,23 +6,20 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 12:11:31 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:14:44 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /**
- * @brief Initialise mlx and create a window
+ * @brief Initialise mlx
  */
 static void	init_mlx(t_cub3d *data)
 {
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit_perror("mlx", NULL);
-	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
-	if (!data->win)
-		exit_perror("window", data);
 }
 
 /**
@@ -62,6 +59,9 @@ void	init_cub3d(t_cub3d *data, char *filename)
 	init_map(&data->map);
 	init_player(&data->player);
 	read_file_data(data, filename);
+	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
+	if (!data->win)
+		exit_perror("window", data);
 }
 
 /**
