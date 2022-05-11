@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 21:18:29 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:11:21 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	int			x;
-	int			y;
+	double		x;
+	double		y;
 	double		dir_x;
 	double		dir_y;
 }	t_player;

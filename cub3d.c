@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:50:13 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 04:11:16 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:13:14 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ static void	print_data(t_cub3d *data)
 	mlx_put_image_to_window(data->mlx, data->win, data->map.east.img_ptr, data->map.west.width, data->map.south.height);
 	printf("floor color: R: %d, G: %d, B: %d\n", data->map.floor_color[0], data->map.floor_color[1], data->map.floor_color[2]);
 	printf("ceiling color: R: %d, G: %d, B: %d\n", data->map.ceiling_color[0], data->map.ceiling_color[1], data->map.ceiling_color[2]);
-	printf("Map height: %d\n", data->map.height);
-	printf("Player position: x: %d, y: %d, dir_x: %f, dir_y: %f\n", data->player.x, data->player.y, data->player.dir_x, data->player.dir_y);
-	printf("Map data:\n");
+	printf("Player position: x: %f, y: %f, dir_x: %f, dir_y: %f\n", data->player.x, data->player.y, data->player.dir_x, data->player.dir_y);
+	printf("Map height: %d, map data:\n", data->map.height);
 	for (int i=0;data->map.data[i];i++)
 	{
 		printf("%s\n", data->map.data[i]);
