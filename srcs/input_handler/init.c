@@ -6,20 +6,28 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 12:14:44 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/11 18:52:23 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /**
- * @brief Initialise mlx
+ * @brief Initialise and create minimap
  */
-static void	init_mlx(t_cub3d *data)
+static void	init_minimap(t_cub3d *data)
 {
-	data->mlx = mlx_init();
-	if (!data->mlx)
-		exit_perror("mlx", NULL);
+	int	square_size;
+
+	if (data->map.max_width > data->map.height)
+		square_size = (int)(WIN_WIDTH / data->map.max_width / 10);
+	else
+		square_size = (int)(WIN_HEIGHT / data->map.height / 10);
+	data->minimap.width = data->map.max_width * square_size;
+	data->minimap.height = data->map.height * square_size;
+	data->minimap.img_ptr = mlx_new_image(data->mlx, \
+		data->minimap.width, data->minimap.height);
+	create_minimap(data);
 }
 
 /**
@@ -35,6 +43,7 @@ static void	init_map(t_map *map)
 	map->ceiling_color[0] = -1;
 	map->data = NULL;
 	map->height = -1;
+	map->max_width = -1;
 }
 
 /**
@@ -46,6 +55,7 @@ static void	init_player(t_player *player)
 	player->y = -1.0f;
 	player->dir_x = 0.0f;
 	player->dir_y = 0.0f;
+	player->speed = 0.1f;
 }
 
 /**
@@ -55,13 +65,22 @@ static void	init_player(t_player *player)
  */
 void	init_cub3d(t_cub3d *data, char *filename)
 {
-	init_mlx(data);
+	data->mlx = mlx_init();
+	if (!data->mlx)
+		exit_perror("mlx", NULL);
+	data->win = NULL;
+	data->main_img = NULL;
+	data->minimap.img_ptr = NULL;
 	init_map(&data->map);
 	init_player(&data->player);
 	read_file_data(data, filename);
 	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	if (!data->win)
 		exit_perror("window", data);
+	data->main_img = mlx_new_image(data->mlx, WIN_WIDTH, WIN_HEIGHT);
+	init_minimap(data);
+	if (!data->main_img || !data->minimap.img_ptr)
+		exit_perror("mlx_new_image", data);
 }
 
 /**
@@ -79,6 +98,10 @@ void	free_data(t_cub3d *data)
 		mlx_destroy_image(data->mlx, data->map.west.img_ptr);
 	if (data->map.east.img_ptr)
 		mlx_destroy_image(data->mlx, data->map.east.img_ptr);
+	if (data->main_img)
+		mlx_destroy_image(data->mlx, data->main_img);
+	if (data->minimap.img_ptr)
+		mlx_destroy_image(data->mlx, data->minimap.img_ptr);
 	if (data->map.data)
 		free_carray(data->map.data);
 	if (data->win)
