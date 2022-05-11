@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 17:42:18 by sbienias         ###   ########.fr       */
+/*   Updated: 2022/05/10 21:18:29 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@
 
 typedef struct s_image
 {
-	void	*img;
-	int		x;
-	int		y;
+	void	*img_ptr;
+	int		width;
+	int		height;
 }	t_image;
 
 typedef struct s_map
 {
 	t_image	north;
 	t_image	south;
-	t_image west;
-	t_image east;
+	t_image	west;
+	t_image	east;
 	int		floor_color[3];
 	int		ceiling_color[3];
-	int		**map;
+	char	**data;
 	int		height;
 }	t_map;
 

@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 01:33:22 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:06:46 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	init_mlx(t_cub3d *data)
 }
 
 /**
- * @brief Initialise map struct and set all pointer to NULL
+ * @brief Initialise map struct by setting all pointer to NULL
  */
 static void	init_map(t_map *map)
 {
