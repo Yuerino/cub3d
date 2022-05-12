@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:37:00 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 15:48:09 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 08:36:20 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	move_player(t_cub3d *data, t_map *map, t_player *p, int key)
  * @note 2D rotation matrix formula here:
  * https://en.wikipedia.org/wiki/Rotation_matrix
  */
-static void	move_camera(t_cub3d *data, t_player *p, int key)
+void	move_camera(t_cub3d *data, t_player *p, int key)
 {
 	double	old_dir_x;
 

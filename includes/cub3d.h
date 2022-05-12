@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 16:38:02 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 08:29:11 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_cub3d
 	t_map		map;
 	t_player	player;
 	t_image		minimap;
+	int			mouse_x;
 }	t_cub3d;
 
 #endif

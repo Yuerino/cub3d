@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 18:52:23 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 08:30:53 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	init_cub3d(t_cub3d *data, char *filename)
 	init_minimap(data);
 	if (!data->main_img || !data->minimap.img_ptr)
 		exit_perror("mlx_new_image", data);
+	data->mouse_x = -1;
 }
 
 /**

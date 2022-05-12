@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:35:33 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 13:42:21 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 08:37:16 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@
 # include <X11/keysym.h>
 
 typedef struct s_cub3d	t_cub3d;
+typedef struct s_player	t_player;
 
 int		close_game(t_cub3d *data);
+void	move_camera(t_cub3d *data, t_player *p, int key);
+
 int		catch_key(int key, t_cub3d *mlx);
+int		mouse_move(int x, int y, t_cub3d *data);
 
 #endif

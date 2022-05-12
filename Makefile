@@ -18,7 +18,7 @@ HEADERS	= cub3d.h input_handler.h utils.h controls.h rendering.h
 IDIR	= includes/
 IFLAGS	= -I$(IDIR) -I$(LIBFT_DIR) -I$(MINILIBX_DIR) -I$(X11_INC)
 
-SRCS	= cub3d.c srcs/controls.c \
+SRCS	= cub3d.c srcs/controls.c srcs/mouse_controls.c \
 		$(addprefix $(IH_PATH),$(IH_SRCS)) \
 		$(addprefix $(UTIL_PATH),$(UTIL_SRCS)) \
 		$(addprefix $(RD_PATH),$(RD_SRCS))
