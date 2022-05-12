@@ -6,7 +6,7 @@
 /*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 17:16:33 by sbienias         ###   ########.fr       */
+/*   Updated: 2022/05/12 19:44:54 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 			(1 - step_y) / 2) / ray_dir_y);
 }
 
-int	choose_texture(t_image texture, int x, int y, t_ray ray)
+int	get_color_from_texture(t_image texture, int x, int y, t_ray ray)
 {
 	char	*adr;
 	int		bits_per_pixel;
@@ -118,15 +118,15 @@ double	find_x(t_ray ray, t_player player, int prevdist)
 	double	result = 0;
 	// double test = player.y - ray.map_y / sin(ray.angle);
 	
-	// if (ray.wall_dir == 0)
+	// if (ray.wall_dir == 1)
 	// 	result = ray.map_x - ray.distance;
 	// else
 	// 	result = ray.map_y - ray.distance;
 	// return ((int)result % 64);
 	if (ray.wall_dir == 0)
-		result = player.y + prevdist * sin(ray.angle);
+		result = ray.map_y + prevdist * sin(ray.angle);
 	else
-		result = player.x + prevdist * cos(ray.angle);
+		result = ray.map_x + prevdist * cos(ray.angle);
 	(void)player;
 	// test = result * 64.0;
 	// if (ray.wall_dir == 0 && cos(ray.angle) > 0)
@@ -140,6 +140,32 @@ double	find_x(t_ray ray, t_player player, int prevdist)
 
 /**
  * @todo add texture for wall instead of fixed color
+ * @brief Determine the texture to use depending on the
+ * side of the ray hit and wall-player relation
+ */
+t_image	choose_texture(t_cub3d *data, t_ray ray)
+{
+	t_image texture;
+
+	if (ray.wall_dir == 0)
+	{
+		if (data->player.x - ray.map_x < 0)
+			texture = data->map.west;
+		else
+			texture = data->map.east;
+	}
+	else
+	{
+		if (data->player.y - ray.map_y < 0)
+			texture = data->map.north;
+		else
+			texture = data->map.south;
+	}
+	return (texture);
+}
+
+/**
+ * @todo fix texture display
  * @brief Calculate wall height based on ray length and draw it
  * to main image
  * @param x Current vertical stripe (x-coordinate) of the screen
@@ -152,8 +178,10 @@ void	draw_wall(t_cub3d *data, t_ray ray, int x)
 	int	color;
 	int	textx;
 	int i = 0;
-	double prevdist = ray.distance;
-	ray.distance = ray.distance *
+	t_image	texture;
+
+	texture = choose_texture(data, ray);
+	ray.distance = ray.distance * \
 		cos(atan2(data->player.dir_y, data->player.dir_x) - ray.angle);
 	line_height = (int)fabs(WIN_HEIGHT / ray.distance);
 	draw_start = -line_height / 2 + WIN_HEIGHT / 2;
@@ -167,7 +195,8 @@ void	draw_wall(t_cub3d *data, t_ray ray, int x)
 	textx = find_x(ray, data->player, prevdist);
 	while (draw_start <= draw_end)
 	{
-		color = choose_texture(data->map.north, textx, find_y(ray, line_height, i++), ray);
+		color = get_color_from_texture(texture, textx, \
+		find_y(ray, line_height, i++), ray);
 		ft_mlx_pixel_put(data->main_img, x, draw_start, color);
 		draw_start++;
 	}
