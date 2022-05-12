@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 10:34:17 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 10:37:13 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 	else
 		ray->distance = fabs((ray->map_y - data->player.y + \
 			(1 - step_y) / 2) / ray_dir_y);
-	ray->distance = ray->distance * \
-		cos(atan2(data->player.dir_y, data->player.dir_x) - ray->angle);
 }
 
 /**
@@ -101,6 +99,8 @@ static void	draw_wall(t_cub3d *data, t_ray ray, int x)
 	int	draw_end;
 	int	color;
 
+	ray.distance = ray.distance * \
+		cos(atan2(data->player.dir_y, data->player.dir_x) - ray.angle);
 	line_height = (int)fabs(WIN_HEIGHT / ray.distance);
 	draw_start = -line_height / 2 + WIN_HEIGHT / 2;
 	draw_end = line_height / 2 + WIN_HEIGHT / 2;
