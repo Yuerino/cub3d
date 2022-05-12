@@ -27,7 +27,7 @@ IH_PATH	= srcs/input_handler/
 IH_SRCS	= init.c read.c read_map.c
 
 RD_PATH	= srcs/rendering/
-RD_SRCS	= putimg.c minimap.c
+RD_SRCS	= putimg.c minimap.c cast_rays.c
 
 UTIL_PATH		= utils/
 UTIL_SRCS		= error.c carray.c image.c is_color_valid.c is_ext_valid.c \

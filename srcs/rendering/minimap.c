@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 19:07:38 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 19:08:34 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 06:34:30 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,6 @@ void	put_square(void *img_ptr, int point[2], int color, int square_size)
 }
 
 /**
- * @brief Draw a minimap with player directly to the main image
- */
-void	draw_minimap(t_cub3d *data)
-{
-	put_image_to_image(data->main_img, data->minimap.img_ptr, \
-		WIN_WIDTH - data->minimap.width, WIN_HEIGHT - data->minimap.height);
-	draw_player(data, WIN_WIDTH - data->minimap.width, \
-		WIN_HEIGHT - data->minimap.height);
-}
-
-/**
  * @brief Create and draw the base minimap without player to
  * minimap struct
  */
@@ -76,4 +65,58 @@ void	create_minimap(t_cub3d *data)
 		}
 		point[1]++;
 	}
+}
+
+/**
+ * @brief Draw a red circle represent a minimap player to the image
+ * @param img Image pointer of the minimap
+ * @param x_offset x start point of the minimap
+ * @param y_offset y start point of the minimap
+ */
+void	draw_minimap_player(t_cub3d *data, void *img,
+	int x_offset, int y_offset)
+{
+	int	radius;
+	int	square_size;
+	int	y;
+	int	x;
+
+	square_size = data->minimap.height / data->map.height;
+	radius = (int)(square_size / 5);
+	y = -radius;
+	while (y <= radius)
+	{
+		x = -radius;
+		while (x <= radius)
+		{
+			if (x * x + y * y <= radius * radius)
+				ft_mlx_pixel_put(img, \
+					(data->player.x * square_size + x) + x_offset, \
+					(data->player.y * square_size + y) + y_offset, 0xff0000);
+			x++;
+		}
+		y++;
+	}
+}
+
+/**
+ * @brief Draw a ray from player to the wall on the minimap
+ * @param minimap_rays_img Image pointer of the minimap
+ * @param color Color of the ray
+ */
+void	draw_minimap_ray(t_cub3d *data, t_ray ray,
+	void *minimap_rays_img, int color)
+{
+	int	p1[2];
+	int	p2[2];
+	int	square_size;
+
+	square_size = data->minimap.height / data->map.height;
+	p1[0] = (int)(data->player.x * square_size);
+	p1[1] = (int)(data->player.y * square_size);
+	p2[0] = (int)((data->player.x - ray.distance * cos(ray.angle)) * \
+		square_size);
+	p2[1] = (int)((data->player.y - ray.distance * sin(ray.angle)) * \
+		square_size);
+	draw_line(minimap_rays_img, p1, p2, color);
 }
