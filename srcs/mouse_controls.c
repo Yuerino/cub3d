@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_controls.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 08:15:19 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 09:18:40 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:15:18 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,33 @@
 
 int	mouse_move(int x, int y, t_cub3d *data)
 {
-	if (data->mouse_x < 0)
+	const double	old_dir_x = data->player.dir_x;
+
+	x = x / 2 + x - (WIN_WIDTH / 2);
+	y = y / 2 + y - (WIN_WIDTH / 2);
+	if (data->mouse_x - x < 100 && data->mouse_x - x > -100 )
 	{
-		data->mouse_x = x;
-		return (0);
+		if (data->mouse_x - x > 5)
+		{
+			data->player.dir_x = data->player.dir_x * cos(-data->player.speed) \
+			-data->player.dir_y * sin(-data->player.speed) * 0.95;
+			data->player.dir_y = old_dir_x * sin(-data->player.speed) + \
+			data->player.dir_y * cos(-data->player.speed) * 0.95; 
+		}
+		else if (data->mouse_x - x < -5)
+		{
+			data->player.dir_x = data->player.dir_x * cos(data->player.speed) \
+			- data->player.dir_y * sin(data->player.speed) * 0.95;
+			data->player.dir_y = old_dir_x * sin(data->player.speed) + \
+			data->player.dir_y * cos(data->player.speed) * 0.95;
+		}
+		else
+		{
+			data->mouse_x = x;
+			return (0);
+		}
+		draw(data);
 	}
-	if (abs(data->mouse_x - x) > 10)
-	{
-		if (x < data->mouse_x)
-			move_camera(data, &data->player, XK_Left);
-		else if (x > data->mouse_x)
-			move_camera(data, &data->player, XK_Right);
-		data->mouse_x = x;
-	}
-	if (x < WIN_WIDTH * 0.3 || x > WIN_WIDTH * 0.7)
-	{
-		mlx_mouse_move(data->mlx, data->win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
-		data->mouse_x = WIN_WIDTH / 2;
-	}
-	if (y < WIN_HEIGHT * 0.3 || y > WIN_HEIGHT * 0.7)
-		mlx_mouse_move(data->mlx, data->win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	data->mouse_x = x;
 	return (0);
 }
