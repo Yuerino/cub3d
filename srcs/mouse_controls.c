@@ -6,7 +6,7 @@
 /*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 08:15:19 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 14:15:18 by sbienias         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:13:15 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int	mouse_move(int x, int y, t_cub3d *data)
 		if (data->mouse_x - x > 5)
 		{
 			data->player.dir_x = data->player.dir_x * cos(-data->player.speed) \
-			-data->player.dir_y * sin(-data->player.speed) * 0.95;
+			-data->player.dir_y * sin(-data->player.speed);
 			data->player.dir_y = old_dir_x * sin(-data->player.speed) + \
-			data->player.dir_y * cos(-data->player.speed) * 0.95; 
+			data->player.dir_y * cos(-data->player.speed); 
 		}
 		else if (data->mouse_x - x < -5)
 		{
 			data->player.dir_x = data->player.dir_x * cos(data->player.speed) \
-			- data->player.dir_y * sin(data->player.speed) * 0.95;
+			- data->player.dir_y * sin(data->player.speed);
 			data->player.dir_y = old_dir_x * sin(data->player.speed) + \
-			data->player.dir_y * cos(data->player.speed) * 0.95;
+			data->player.dir_y * cos(data->player.speed);
 		}
 		else
 		{
