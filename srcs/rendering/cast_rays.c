@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 06:36:39 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 07:56:08 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 /**
  * @note black magic in here, not norm ofc, need refactor
- * DDA Algo to cast the ray, but the math to get stepX stepY sideDistX sideDistY
- * based on ray direction are magic for me
+ * DDA Algo to cast the ray, but the math to get step_x step_y
+ * current_x current_y based on ray direction are magic for me
  */
 static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 {

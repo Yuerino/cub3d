@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 16:38:34 by sbienias          #+#    #+#             */
-/*   Updated: 2022/05/12 06:32:53 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/12 08:00:28 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,19 @@ void	draw_line(void *img_ptr, int p1[2], int p2[2], int line_color)
 	}
 }
 
+/**
+ * @brief Render a full screen frame including minimap
+ */
 void	draw(t_cub3d *mlx)
 {
-	void	*minimap_rays_img;
+	void	*minimap_img_ptr;
 
 	mlx->main_img = clear_image(mlx->main_img);
-	minimap_rays_img = image_dup(mlx->mlx, mlx->minimap.img_ptr);
-	draw_minimap_player(mlx, minimap_rays_img, 0, 0);
-	cast_rays(mlx, minimap_rays_img);
-	put_image_to_image(mlx->main_img, minimap_rays_img, \
+	minimap_img_ptr = image_dup(mlx->mlx, mlx->minimap.img_ptr);
+	draw_minimap_player(mlx, minimap_img_ptr, 0, 0);
+	cast_rays(mlx, minimap_img_ptr);
+	put_image_to_image(mlx->main_img, minimap_img_ptr, \
 		WIN_WIDTH - mlx->minimap.width, WIN_HEIGHT - mlx->minimap.height);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->main_img, 0, 0);
-	mlx_destroy_image(mlx->mlx, minimap_rays_img);
+	mlx_destroy_image(mlx->mlx, minimap_img_ptr);
 }
