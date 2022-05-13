@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 16:38:49 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 02:31:03 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static char	read_map_point(t_cub3d *data, char *line, int x)
 {
 	if (line[x] == '0' || line[x] == '1' || line[x] == ' ')
 		return (line[x]);
-	else if (line[x] == 'N' || line[x] == 'S'
-		|| line[x] == 'E' || line[x] == 'W')
+	else if (data->player.x < 0 && (line[x] == 'N' || line[x] == 'S'
+		|| line[x] == 'E' || line[x] == 'W'))
 		return (set_player_pos(&data->player, line[x], x));
 	return (print_read_map_error(data, "Error: Invalid map data", NULL, line));
 }
