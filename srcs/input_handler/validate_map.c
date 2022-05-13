@@ -6,12 +6,19 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 03:43:11 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 05:18:16 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 07:40:29 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/**
+ * @brief Check if the empty area at (x|y) is valid
+ * and not opened to non-playable are
+ * @param x x-coordination of the empty area
+ * @param y y-coordination of the empty area
+ * @return 1 if valid otherwise 0
+ */
 static int	is_valid_empty(char **map_data, int x, int y)
 {
 	if (map_data[y - 1][x] == ' ' || map_data[y + 1][x] == ' '
@@ -22,6 +29,10 @@ static int	is_valid_empty(char **map_data, int x, int y)
 	return (1);
 }
 
+/**
+ * @brief Validate map, make sure map is surrounded by wall
+ * @return 1 if valid otherwise 0
+ */
 int	validate_map(t_map *map)
 {
 	int	y;

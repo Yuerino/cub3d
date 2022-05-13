@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 06:42:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 07:21:30 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 07:41:00 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 /**
  * @note Yes I know there's easier way but I'm too lazy
- * @brief Check if same texture file has already loaded *
+ * @brief Check if same texture file has already loaded
  * @param texture The texture's used for compare
- * @return int 1 if duplicate otherwise 0
+ * @return 1 if duplicate otherwise 0
  */
 static int	check_texture_dup(t_cub3d *data, t_map *map, t_image *texture)
 {

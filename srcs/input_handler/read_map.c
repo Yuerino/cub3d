@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 05:06:02 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 05:20:58 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ static int	read_map_line(t_cub3d *data, char *line, int y)
 }
 
 /**
- * @todo Check map is valid (surrounded by walls)
  * @brief Validate and parse map data line by line from file fd,
  * stop when EOF or empty line
  * @param line First line of the map data

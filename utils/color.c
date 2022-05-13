@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 18:48:56 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 06:05:02 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 07:41:07 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_color_valid(int color[3])
 /**
  * @brief Get hexa color from string r, g, b respectively
  * @param color Pointer of the integer you want to set hexa color to
- * @return int 1 if success otherwise 0
+ * @return 1 if success otherwise 0
  */
 int	str_rgb_to_color(char *r, char *g, char *b, long long *color)
 {
