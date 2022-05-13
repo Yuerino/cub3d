@@ -24,7 +24,7 @@ SRCS	= cub3d.c srcs/controls.c srcs/mouse_controls.c \
 		$(addprefix $(RD_PATH),$(RD_SRCS))
 
 IH_PATH	= srcs/input_handler/
-IH_SRCS	= init.c read.c read_map.c validate_map.c
+IH_SRCS	= init.c read.c read_map.c validate_map.c free.c read_texture.c
 
 RD_PATH	= srcs/rendering/
 RD_SRCS	= putimg.c minimap.c cast_rays.c

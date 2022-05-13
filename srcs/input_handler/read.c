@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:17:55 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 06:24:00 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 06:48:41 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param arr (Optional) Double char pointer to be freed
  * @return 0 for error
  */
-static int	print_get_error(t_cub3d *data, char *err, char *perr, char **arr)
+int	print_read_error(t_cub3d *data, char *err, char *perr, char **arr)
 {
 	if (err)
 		print_error(err, data);
@@ -30,34 +30,6 @@ static int	print_get_error(t_cub3d *data, char *err, char *perr, char **arr)
 	if (arr)
 		free_carray(arr);
 	return (0);
-}
-
-/**
- * @brief Get the texture data from line and free the line
- * @param line Line contains path of texture
- * @param texture Struct for the texture data
- * @return 1 if success otherwise 0
- */
-static int	get_texture(t_cub3d *data, char *line, t_image *texture)
-{
-	char	**splited;
-
-	splited = ft_split(line, ' ');
-	free(line);
-	if (!splited)
-		return (print_perror("ft_split", data));
-	if (carray_len(splited) != 2)
-		return (print_get_error(data, "Error: Invalid texture data",
-				NULL, splited));
-	if (!is_ext_valid(splited[1], ".xpm"))
-		return (print_get_error(data, "Error: Invalid texture file extension",
-				NULL, splited));
-	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, splited[1],
-			&texture->width, &texture->height);
-	if (!texture->img_ptr)
-		return (print_get_error(data, NULL, splited[1], splited));
-	free_carray(splited);
-	return (1);
 }
 
 /**
@@ -76,7 +48,7 @@ static int	get_color(t_cub3d *data, char *line, long long *color)
 	if (!splited)
 		return (print_perror("ft_split", data));
 	if (carray_len(splited) != 2)
-		return (print_get_error(data, "Error: Invalid color data",
+		return (print_read_error(data, "Error: Invalid color data",
 				NULL, splited));
 	color_split = ft_split(splited[1], ',');
 	free_carray(splited);
@@ -85,7 +57,7 @@ static int	get_color(t_cub3d *data, char *line, long long *color)
 	if (carray_len(color_split) != 3
 		|| !str_rgb_to_color(color_split[0], color_split[1], \
 			color_split[2], color))
-		return (print_get_error(data, "Error: Invalid color data",
+		return (print_read_error(data, "Error: Invalid color data",
 				NULL, color_split));
 	free_carray(color_split);
 	if ((&data->map.floor_color == color && data->map.ceiling_color == *color)
