@@ -6,7 +6,7 @@
 /*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 13:27:50 by sbienias         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:57:31 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,14 @@ int	get_color_from_texture(t_image texture, int x, int y, t_ray ray)
  */
 int	find_y(t_ray ray, int distance, int index)
 {
-	int	result = 0;
-	int	draw_start = -distance / 2 + WIN_HEIGHT / 2;
+	int	result;
+	int	draw_start;
 
-	if (draw_start < 0)
-		distance += draw_start;
+	draw_start = -distance / 2 + WIN_HEIGHT / 2;
+	if (distance > WIN_HEIGHT)
+	{
+		index -= draw_start;
+	}
 	if (ray.wall_dir == 0)
 		result = distance % 64;
 	else
@@ -130,29 +133,31 @@ int	find_y(t_ray ray, int distance, int index)
 
 /**
  * @todo Make it not slide
- * @brief Decide the y index from the texture depending on the line
- * height and the current element
+ * @brief Decide the x index from the texture ray angle,
+ * player's and the map tile hit position
  */
 double	find_x(t_ray ray, t_player player)
 {
 	double	result = 0;
 	// double test = player.y - ray.map_y / sin(ray.angle);
 	
-	if (ray.wall_dir == 1)
-	{
-		result = player.y - ray.map_y - (cos(ray.angle) * ray.distance);
-		printf("test map y %d player %f offset %f the prev pme %f\n", ray.map_y, player.y, (cos(ray.angle) * ray.distance), ray.y_offset);
+	// if (ray.wall_dir == 1)
+	// {
+	// 	result = player.y - ray.map_y - (cos(ray.angle) * ray.distance);
+	// 	printf("test map y %d player %f offset %f the prev pme %f\n", ray.map_y, player.y, (cos(ray.angle) * ray.distance), ray.y_offset);
 
-	}
-	else
-	{
-		result = player.x - ray.map_x - (sin(ray.angle) * ray.distance);
-		printf("test map x %d player %f offset %f the prev pme %f\n", ray.map_x, player.x, (sin(ray.angle) * ray.distance), ray.x_offset);
-	}
-	// if (ray.wall_dir == 0)
-	// 	result = (sin(ray.angle) * ray.distance);
+	// }
 	// else
-	// 	result = (cos(ray.angle) * ray.distance);
+	// {
+	// 	result = player.x - ray.map_x - (sin(ray.angle) * ray.distance);
+	// 	printf("test map x %d player %f offset %f the prev pme %f\n", ray.map_x, player.x, (sin(ray.angle) * ray.distance), ray.x_offset);
+	// }
+	
+	result = (ray.map_x + ray.map_y);
+	if (ray.wall_dir == 0)
+		result = (sin(ray.angle) * ray.distance);
+	else
+		result = (cos(ray.angle) * ray.distance);
 	if (result < 0)
 		result *= -1;
 	(void)player;
