@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 05:16:42 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 06:21:06 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	init_minimap(t_cub3d *data)
 }
 
 /**
- * @brief Initialise map struct by setting all pointer to NULL
+ * @brief Initialise map struct, set all values to default
  */
 static void	init_map(t_map *map)
 {
@@ -39,8 +39,8 @@ static void	init_map(t_map *map)
 	map->south.img_ptr = NULL;
 	map->west.img_ptr = NULL;
 	map->east.img_ptr = NULL;
-	map->floor_color[0] = -1;
-	map->ceiling_color[0] = -1;
+	map->floor_color = INT64_MAX;
+	map->ceiling_color = INT64_MAX;
 	map->data = NULL;
 	map->height = -1;
 	map->max_width = -1;
@@ -60,7 +60,7 @@ static void	init_player(t_player *player)
 
 /**
  * @brief Initialise cub3d main struct and its elements
- * and read map data from file *
+ * and read map data from file
  * @param filename Path to map file
  */
 void	init_cub3d(t_cub3d *data, char *filename)

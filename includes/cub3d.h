@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 08:29:11 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 05:57:04 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ typedef struct s_image
 
 typedef struct s_map
 {
-	t_image	north;
-	t_image	south;
-	t_image	west;
-	t_image	east;
-	int		floor_color[3];
-	int		ceiling_color[3];
-	char	**data;
-	int		height;
-	int		max_width;
+	t_image		north;
+	t_image		south;
+	t_image		west;
+	t_image		east;
+	long long	floor_color;
+	long long	ceiling_color;
+	char		**data;
+	int			height;
+	int			max_width;
 }	t_map;
 
 typedef struct s_player

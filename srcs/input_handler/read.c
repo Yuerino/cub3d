@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:17:55 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 02:05:37 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 06:24:00 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ static int	get_texture(t_cub3d *data, char *line, t_image *texture)
 /**
  * @brief Get the color data from line and free the line
  * @param line Line that has RGB color data
- * @param color Integer array size of 3 for R, G, B value
+ * @param color Pointer of the color you want to set to
  * @return 1 if success otherwise 0
  */
-static int	get_color(t_cub3d *data, char *line, int (*color)[3])
+static int	get_color(t_cub3d *data, char *line, long long *color)
 {
 	char	**splited;
 	char	**color_split;
@@ -82,16 +82,16 @@ static int	get_color(t_cub3d *data, char *line, int (*color)[3])
 	free_carray(splited);
 	if (!color_split)
 		return (print_perror("ft_split", data));
-	if (carray_len(color_split) != 3 || !is_nbr(color_split[0])
-		|| !is_nbr(color_split[1]) || !is_nbr(color_split[2]))
+	if (carray_len(color_split) != 3
+		|| !str_rgb_to_color(color_split[0], color_split[1], \
+			color_split[2], color))
 		return (print_get_error(data, "Error: Invalid color data",
 				NULL, color_split));
-	(*color)[0] = ft_atoi(color_split[0]);
-	(*color)[1] = ft_atoi(color_split[1]);
-	(*color)[2] = ft_atoi(color_split[2]);
 	free_carray(color_split);
-	if (!is_color_valid(*color))
-		return (print_error("Error: Invalid color data", data));
+	if ((&data->map.floor_color == color && data->map.ceiling_color == *color)
+		|| (&data->map.ceiling_color == color
+			&& data->map.floor_color == *color))
+		return (print_error("Error: Duplicated color", data));
 	return (1);
 }
 
@@ -111,20 +111,16 @@ static int	process_line(t_cub3d *data, char *line, int fd)
 		return (get_texture(data, line, &data->map.west));
 	else if (!ft_strncmp(line, "EA ", 3) && !data->map.east.img_ptr)
 		return (get_texture(data, line, &data->map.east));
-	else if (!ft_strncmp(line, "F ", 2) && data->map.floor_color[0] < 0)
+	else if (!ft_strncmp(line, "F ", 2) && data->map.floor_color == INT64_MAX)
 		return (get_color(data, line, &data->map.floor_color));
-	else if (!ft_strncmp(line, "C ", 2) && data->map.ceiling_color[0] < 0)
+	else if (!ft_strncmp(line, "C ", 2) && data->map.ceiling_color == INT64_MAX)
 		return (get_color(data, line, &data->map.ceiling_color));
 	else if (!data->map.data && (*line == ' ' || *line == '0' || *line == '1')
 		&& data->map.north.img_ptr && data->map.south.img_ptr
 		&& data->map.west.img_ptr && data->map.east.img_ptr
-		&& data->map.floor_color[0] >= 0 && data->map.ceiling_color[0] >= 0)
+		&& data->map.floor_color != INT64_MAX
+		&& data->map.ceiling_color != INT64_MAX)
 		return (read_map(data, line, fd));
-	else if (!ft_strlen(line))
-	{
-		free(line);
-		return (1);
-	}
 	print_error("Error: Invalid map data", data);
 	free(line);
 	return (0);
@@ -150,10 +146,10 @@ void	read_file_data(t_cub3d *data, char *filename)
 	ret = 1;
 	while (line)
 	{
-		if (ret)
-			ret = process_line(data, line, fd);
-		else
+		if (!ret || !ft_strlen(line))
 			free(line);
+		else if (ret)
+			ret = process_line(data, line, fd);
 		line = get_next_line(fd);
 	}
 	close(fd);
