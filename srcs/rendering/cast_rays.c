@@ -6,7 +6,7 @@
 /*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 19:44:54 by sbienias         ###   ########.fr       */
+/*   Updated: 2022/05/13 13:27:50 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,42 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 	else
 		ray->distance = fabs((ray->map_y - data->player.y + \
 			(1 - step_y) / 2) / ray_dir_y);
+	ray->x_offset = current_x;
+	ray->y_offset = current_y;
 }
 
+/**
+ * @brief Chooses the color from within the specified texture based on the 
+ * x and y axis, darkens the pixels on the N and S sides
+ */
 int	get_color_from_texture(t_image texture, int x, int y, t_ray ray)
 {
 	char	*adr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	t_img	*img;
 
-	adr = mlx_get_data_addr(texture.img_ptr, &bits_per_pixel, \
+	img = (t_img *)(texture.img_ptr);
+	adr = mlx_get_data_addr(img, &bits_per_pixel, \
 	&line_length, &endian);
-	adr = adr + ((y % 64) * line_length + x * (bits_per_pixel / 8));
+	adr = adr + (y % img->height * line_length + x * (bits_per_pixel / 8));
 	if (ray.wall_dir)
-		return (*(unsigned int *)adr / 2);
+		return (*(unsigned int *)adr / 2 & 0b011111110111111101111111);
 	return (*(unsigned int *)adr);
 }
 
+/**
+ * @brief Decide the y index from the texture depending on the line
+ * height and the current element
+ */
 int	find_y(t_ray ray, int distance, int index)
 {
 	int	result = 0;
+	int	draw_start = -distance / 2 + WIN_HEIGHT / 2;
 
+	if (draw_start < 0)
+		distance += draw_start;
 	if (ray.wall_dir == 0)
 		result = distance % 64;
 	else
@@ -113,33 +128,40 @@ int	find_y(t_ray ray, int distance, int index)
 	return (result);
 }
 
-double	find_x(t_ray ray, t_player player, int prevdist)
+/**
+ * @todo Make it not slide
+ * @brief Decide the y index from the texture depending on the line
+ * height and the current element
+ */
+double	find_x(t_ray ray, t_player player)
 {
 	double	result = 0;
 	// double test = player.y - ray.map_y / sin(ray.angle);
 	
-	// if (ray.wall_dir == 1)
-	// 	result = ray.map_x - ray.distance;
-	// else
-	// 	result = ray.map_y - ray.distance;
-	// return ((int)result % 64);
-	if (ray.wall_dir == 0)
-		result = ray.map_y + prevdist * sin(ray.angle);
+	if (ray.wall_dir == 1)
+	{
+		result = player.y - ray.map_y - (cos(ray.angle) * ray.distance);
+		printf("test map y %d player %f offset %f the prev pme %f\n", ray.map_y, player.y, (cos(ray.angle) * ray.distance), ray.y_offset);
+
+	}
 	else
-		result = ray.map_x + prevdist * cos(ray.angle);
+	{
+		result = player.x - ray.map_x - (sin(ray.angle) * ray.distance);
+		printf("test map x %d player %f offset %f the prev pme %f\n", ray.map_x, player.x, (sin(ray.angle) * ray.distance), ray.x_offset);
+	}
+	// if (ray.wall_dir == 0)
+	// 	result = (sin(ray.angle) * ray.distance);
+	// else
+	// 	result = (cos(ray.angle) * ray.distance);
+	if (result < 0)
+		result *= -1;
 	(void)player;
-	// test = result * 64.0;
-	// if (ray.wall_dir == 0 && cos(ray.angle) > 0)
-	// 	test = 64 - test - 1;
-	// if (ray.wall_dir == 1 && sin(ray.angle) < 0)
-	// 	test = 64 - test - 1;
 
 	result = (result * 64);
 	return ((int)result % 64);
 }
 
 /**
- * @todo add texture for wall instead of fixed color
  * @brief Determine the texture to use depending on the
  * side of the ray hit and wall-player relation
  */
@@ -192,7 +214,7 @@ void	draw_wall(t_cub3d *data, t_ray ray, int x)
 		draw_end = WIN_HEIGHT - 1;
 	//steps = 1.0 * data->map.north.height / (draw_end - draw_start);
 	//steps = data->map.north.height / (draw_end - draw_start);
-	textx = find_x(ray, data->player, prevdist);
+	textx = find_x(ray, data->player);
 	while (draw_start <= draw_end)
 	{
 		color = get_color_from_texture(texture, textx, \

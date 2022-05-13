@@ -6,7 +6,7 @@
 /*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:27:49 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 17:25:58 by sbienias         ###   ########.fr       */
+/*   Updated: 2022/05/13 10:38:48 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_ray
 	int		map_y;
 	int		wall_dir;
 	double	distance;
+	double	x_offset;
+	double	y_offset;
 }	t_ray;
 
 void	draw(t_cub3d *mlx);
