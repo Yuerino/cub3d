@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 10:37:13 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 08:18:36 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,43 +87,51 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 }
 
 /**
- * @todo add texture for wall instead of fixed color
- * @brief Calculate wall height based on ray length and draw it
- * to main image
- * @param x Current vertical stripe (x-coordinate) of the screen
+ * @brief Calculate the wall height
+ * and where the wall starts and ends on vertical line (y)
  */
-static void	draw_wall(t_cub3d *data, t_ray ray, int x)
+static void	calc_wall_height(t_ray *ray)
 {
 	int	line_height;
-	int	draw_start;
-	int	draw_end;
-	int	color;
 
-	ray.distance = ray.distance * \
-		cos(atan2(data->player.dir_y, data->player.dir_x) - ray.angle);
-	line_height = (int)fabs(WIN_HEIGHT / ray.distance);
-	draw_start = -line_height / 2 + WIN_HEIGHT / 2;
-	draw_end = line_height / 2 + WIN_HEIGHT / 2;
-	if (draw_start < 0)
-		draw_start = 0;
-	if (draw_end >= WIN_HEIGHT)
-		draw_end = WIN_HEIGHT - 1;
-	if (data->map.data[ray.map_y][ray.map_x] == '1')
-		color = 0xFF0000;
-	else
-		color = 0xFFFF00;
+	line_height = (int)fabs(WIN_HEIGHT / ray->distance);
+	ray->wall_y[0] = -line_height / 2 + WIN_HEIGHT / 2;
+	ray->wall_y[1] = line_height / 2 + WIN_HEIGHT / 2;
+	if (ray->wall_y[0] < 0)
+		ray->wall_y[0] = 0;
+	if (ray->wall_y[1] >= WIN_HEIGHT)
+		ray->wall_y[1] = WIN_HEIGHT - 1;
+}
+
+/**
+ * @todo add texture for wall instead of fixed color
+ * @brief Draw a vertical line on screen with ceiling, floor and wall
+ * @param x Current vertical stripe (x-coordinate) of the screen
+ */
+static void	draw_vertical_line(t_cub3d *data, t_ray ray, int x)
+{
+	int	color;
+	int	y;
+
+	color = 0x0000FF;
 	if (ray.wall_dir)
 		color = color / 2;
-	while (draw_start <= draw_end)
+	y = 0;
+	while (y <= WIN_HEIGHT)
 	{
-		ft_mlx_pixel_put(data->main_img, x, draw_start, color);
-		draw_start++;
+		if (y >= ray.wall_y[0] && y <= ray.wall_y[1])
+			ft_mlx_pixel_put(data->main_img, x, y, color);
+		else if (y < ray.wall_y[0])
+			ft_mlx_pixel_put(data->main_img, x, y, data->map.floor_color);
+		else if (y > ray.wall_y[1])
+			ft_mlx_pixel_put(data->main_img, x, y, data->map.ceiling_color);
+		y++;
 	}
 }
 
 /**
  * @brief Cast all vertical stripe rays
- * and draw the wall and rays for minimap accordingly
+ * and draw vertical lines and rays for minimap accordingly
  * @param minimap_rays_img Image pointer of the minimap
  */
 void	cast_rays(t_cub3d *data, void *minimap_rays_img)
@@ -144,7 +152,10 @@ void	cast_rays(t_cub3d *data, void *minimap_rays_img)
 			ray.angle = (M_PI * 2) + ray.angle;
 		cast_single_ray(data, &ray);
 		draw_minimap_ray(data, ray, minimap_rays_img, 0xFF0000);
-		draw_wall(data, ray, x);
+		ray.distance = ray.distance * \
+			cos(atan2(data->player.dir_y, data->player.dir_x) - ray.angle);
+		calc_wall_height(&ray);
+		draw_vertical_line(data, ray, x);
 		x++;
 	}
 }
