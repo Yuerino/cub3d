@@ -30,7 +30,7 @@ RD_PATH	= srcs/rendering/
 RD_SRCS	= putimg.c minimap.c cast_rays.c
 
 UTIL_PATH		= utils/
-UTIL_SRCS		= error.c carray.c image.c is_color_valid.c is_ext_valid.c \
+UTIL_SRCS		= error.c carray.c image.c color.c is_ext_valid.c \
 					is_nbr.c put_pixel.c
 
 RM		= rm -f
