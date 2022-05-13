@@ -6,80 +6,70 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 11:36:56 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:28:40 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /**
- * @note black magic in here, not norm ofc, need refactor
- * DDA Algo to cast the ray, but the math to get step_x step_y
- * current_x current_y based on ray direction are magic for me
+ * @brief Calculate all the necessary magic to trace a ray using DDA algo
  */
-static void	cast_single_ray(t_cub3d *data, t_ray *ray)
+static void	prep_ray(t_cub3d *data, t_ray *ray)
 {
-	double	ray_dir_x;
-	double	ray_dir_y;
-	double	delta_x;
-	double	delta_y;
-	int		step_x;
-	int		step_y;
-	double	current_x;
-	double	current_y;
-
-	ray_dir_x = cos(ray->angle);
-	ray_dir_y = sin(ray->angle);
-
 	ray->map_x = (int)data->player.x;
 	ray->map_y = (int)data->player.y;
-
-	delta_x = fabs(1 / ray_dir_x);
-	delta_y = fabs(1 / ray_dir_y);
-
-	if (ray_dir_x > 0)
+	ray->delta_x = fabs(1 / ray->dir_x);
+	ray->delta_y = fabs(1 / ray->dir_y);
+	if (ray->dir_x > 0)
 	{
-		step_x = -1;
-		current_x = (data->player.x - ray->map_x) * delta_x;
+		ray->step_x = -1;
+		ray->current_x = (data->player.x - ray->map_x) * ray->delta_x;
 	}
 	else
 	{
-		step_x = 1;
-		current_x = (ray->map_x + 1.0 - data->player.x) * delta_x;
+		ray->step_x = 1;
+		ray->current_x = (ray->map_x + 1.0 - data->player.x) * ray->delta_x;
 	}
-	if (ray_dir_y > 0)
+	if (ray->dir_y > 0)
 	{
-		step_y = -1;
-		current_y = (data->player.y - ray->map_y) * delta_y;
+		ray->step_y = -1;
+		ray->current_y = (data->player.y - ray->map_y) * ray->delta_y;
 	}
 	else
 	{
-		step_y = 1;
-		current_y = (ray->map_y + 1.0 - data->player.y) * delta_y;
+		ray->step_y = 1;
+		ray->current_y = (ray->map_y + 1.0 - data->player.y) * ray->delta_y;
 	}
+}
 
+/**
+ * @brief Cast the ray using DDA algo until it hits a wall
+ * then calculate and set the distance it travels
+ */
+static void	cast_ray(t_cub3d *data, t_ray *ray)
+{
 	while (data->map.data[ray->map_y][ray->map_x] != '1')
 	{
-		if (current_x < current_y)
+		if (ray->current_x < ray->current_y)
 		{
-			current_x += delta_x;
-			ray->map_x += step_x;
+			ray->current_x += ray->delta_x;
+			ray->map_x += ray->step_x;
 			ray->wall_dir = 0;
 		}
 		else
 		{
-			current_y += delta_y;
-			ray->map_y += step_y;
+			ray->current_y += ray->delta_y;
+			ray->map_y += ray->step_y;
 			ray->wall_dir = 1;
 		}
 	}
-
 	if (!ray->wall_dir)
 		ray->distance = fabs((ray->map_x - data->player.x + \
-			(1 - step_x) / 2) / ray_dir_x);
+			(1 - ray->step_x) / 2) / ray->dir_x);
 	else
 		ray->distance = fabs((ray->map_y - data->player.y + \
-			(1 - step_y) / 2) / ray_dir_y);
+			(1 - ray->step_y) / 2) / ray->dir_y);
 }
 
 /**
@@ -146,7 +136,10 @@ void	cast_rays(t_cub3d *data, void *minimap_rays_img)
 		ray.angle = initial_angle + (angle_step * x);
 		if (ray.angle < 0.0f)
 			ray.angle = (M_PI * 2) + ray.angle;
-		cast_single_ray(data, &ray);
+		ray.dir_x = cos(ray.angle);
+		ray.dir_y = sin(ray.angle);
+		prep_ray(data, &ray);
+		cast_ray(data, &ray);
 		draw_minimap_ray(data, ray, minimap_rays_img, 0xFF0000);
 		ray.distance = ray.distance * \
 			cos(atan2(data->player.dir_y, data->player.dir_x) - ray.angle);

@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:27:49 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 08:09:58 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:33:48 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,16 @@ typedef struct s_image	t_image;
 typedef struct s_ray
 {
 	double	angle;
+	double	dir_x;
+	double	dir_y;
 	int		map_x;
 	int		map_y;
+	int		step_x;
+	int		step_y;
+	double	delta_x;
+	double	delta_y;
+	double	current_x;
+	double	current_y;
 	int		wall_dir;
 	double	distance;
 	double	wall_y[2];
