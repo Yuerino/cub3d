@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 08:18:36 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 11:36:56 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 	int		step_y;
 	double	current_x;
 	double	current_y;
-	int		hit;
 
 	ray_dir_x = cos(ray->angle);
 	ray_dir_y = sin(ray->angle);
@@ -59,8 +58,7 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 		current_y = (ray->map_y + 1.0 - data->player.y) * delta_y;
 	}
 
-	hit = 0;
-	while (!hit)
+	while (data->map.data[ray->map_y][ray->map_x] != '1')
 	{
 		if (current_x < current_y)
 		{
@@ -74,8 +72,6 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 			ray->map_y += step_y;
 			ray->wall_dir = 1;
 		}
-		if (data->map.data[ray->map_y][ray->map_x] == '1')
-			hit = 1;
 	}
 
 	if (!ray->wall_dir)

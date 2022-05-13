@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 05:20:58 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 11:52:04 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	print_read_map_error(t_cub3d *data, char *err, char *perr,
  */
 static char	set_player_pos(t_player *player, char c, int x)
 {
-	player->x = (double)x;
+	player->x = x + 0.0001;
 	if (c == 'N')
 		player->dir_y = 1.0f;
 	else if (c == 'S')
@@ -99,7 +99,7 @@ static int	read_map_line(t_cub3d *data, char *line, int y)
 	if (x > data->map.max_width)
 		data->map.max_width = x;
 	if (data->player.x > 0 && data->player.y < 0)
-		data->player.y = (double)y;
+		data->player.y = y + 0.0001;
 	free(line);
 	return (1);
 }
