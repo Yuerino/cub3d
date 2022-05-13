@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 08:30:53 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 05:16:42 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	init_minimap(t_cub3d *data)
 	int	square_size;
 
 	if (data->map.max_width > data->map.height)
-		square_size = (int)(WIN_WIDTH / data->map.max_width / 10);
+		square_size = (int)(WIN_WIDTH / data->map.max_width / 5);
 	else
-		square_size = (int)(WIN_HEIGHT / data->map.height / 10);
+		square_size = (int)(WIN_HEIGHT / data->map.height / 5);
 	data->minimap.width = data->map.max_width * square_size;
 	data->minimap.height = data->map.height * square_size;
 	data->minimap.img_ptr = mlx_new_image(data->mlx, \
