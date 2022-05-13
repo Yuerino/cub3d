@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 02:31:03 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 05:06:02 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ static char	read_map_point(t_cub3d *data, char *line, int x)
 	if (line[x] == '0' || line[x] == '1' || line[x] == ' ')
 		return (line[x]);
 	else if (data->player.x < 0 && (line[x] == 'N' || line[x] == 'S'
-		|| line[x] == 'E' || line[x] == 'W'))
+			|| line[x] == 'E' || line[x] == 'W'))
 		return (set_player_pos(&data->player, line[x], x));
-	return (print_read_map_error(data, "Error: Invalid map data", NULL, line));
+	return (print_read_map_error(data, "Error: Invalid map format", \
+		NULL, line));
 }
 
 /**
@@ -132,6 +133,9 @@ int	read_map(t_cub3d *data, char *line, int fd)
 		line = get_next_line(fd);
 	}
 	data->map.height = y;
-	// TODO: check map valid here
+	if (!validate_map(&data->map) || data->map.height < 3
+		|| data->map.max_width < 3 || data->player.x < 0)
+		return (print_read_map_error(data, "Error: Invalid map format", \
+			NULL, NULL));
 	return (1);
 }
