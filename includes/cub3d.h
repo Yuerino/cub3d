@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 05:57:04 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 07:11:49 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_image
 	void	*img_ptr;
 	int		width;
 	int		height;
+	char	*filename;
 }	t_image;
 
 typedef struct s_map

@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:22:27 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 06:21:06 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/13 07:12:59 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ static void	init_minimap(t_cub3d *data)
 static void	init_map(t_map *map)
 {
 	map->north.img_ptr = NULL;
+	map->north.filename = NULL;
 	map->south.img_ptr = NULL;
+	map->south.filename = NULL;
 	map->west.img_ptr = NULL;
+	map->west.filename = NULL;
 	map->east.img_ptr = NULL;
+	map->east.filename = NULL;
 	map->floor_color = INT64_MAX;
 	map->ceiling_color = INT64_MAX;
 	map->data = NULL;
@@ -82,31 +86,4 @@ void	init_cub3d(t_cub3d *data, char *filename)
 	if (!data->main_img || !data->minimap.img_ptr)
 		exit_perror("mlx_new_image", data);
 	data->mouse_x = -1;
-}
-
-/**
- * @brief Free all allocated data inside data struct including those from mlx
- * @note This shouldn't belong to input handler so extract this
- * into new file if needed
- */
-void	free_data(t_cub3d *data)
-{
-	if (data->map.north.img_ptr)
-		mlx_destroy_image(data->mlx, data->map.north.img_ptr);
-	if (data->map.south.img_ptr)
-		mlx_destroy_image(data->mlx, data->map.south.img_ptr);
-	if (data->map.west.img_ptr)
-		mlx_destroy_image(data->mlx, data->map.west.img_ptr);
-	if (data->map.east.img_ptr)
-		mlx_destroy_image(data->mlx, data->map.east.img_ptr);
-	if (data->main_img)
-		mlx_destroy_image(data->mlx, data->main_img);
-	if (data->minimap.img_ptr)
-		mlx_destroy_image(data->mlx, data->minimap.img_ptr);
-	if (data->map.data)
-		free_carray(data->map.data);
-	if (data->win)
-		mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
 }
