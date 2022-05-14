@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 15:57:31 by sbienias         ###   ########.fr       */
+/*   Updated: 2022/05/14 16:54:24 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,39 @@
  */
 static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 {
-	double	ray_dir_x;
-	double	ray_dir_y;
 	double	delta_x;
 	double	delta_y;
-	int		step_x;
-	int		step_y;
 	double	current_x;
 	double	current_y;
 	int		hit;
 
-	ray_dir_x = cos(ray->angle);
-	ray_dir_y = sin(ray->angle);
+	ray->dir_x = cos(ray->angle);
+	ray->dir_y = sin(ray->angle);
 
 	ray->map_x = (int)data->player.x;
 	ray->map_y = (int)data->player.y;
 
-	delta_x = fabs(1 / ray_dir_x);
-	delta_y = fabs(1 / ray_dir_y);
+	delta_x = fabs(1 / ray->dir_x);
+	delta_y = fabs(1 / ray->dir_y);
 
-	if (ray_dir_x > 0)
+	if (ray->dir_x > 0)
 	{
-		step_x = -1;
+		ray->step_x = -1;
 		current_x = (data->player.x - ray->map_x) * delta_x;
 	}
 	else
 	{
-		step_x = 1;
+		ray->step_x = 1;
 		current_x = (ray->map_x + 1.0 - data->player.x) * delta_x;
 	}
-	if (ray_dir_y > 0)
+	if (ray->dir_y > 0)
 	{
-		step_y = -1;
+		ray->step_y = -1;
 		current_y = (data->player.y - ray->map_y) * delta_y;
 	}
 	else
 	{
-		step_y = 1;
+		ray->step_y = 1;
 		current_y = (ray->map_y + 1.0 - data->player.y) * delta_y;
 	}
 
@@ -65,13 +61,13 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 		if (current_x < current_y)
 		{
 			current_x += delta_x;
-			ray->map_x += step_x;
+			ray->map_x += ray->step_x;
 			ray->wall_dir = 0;
 		}
 		else
 		{
 			current_y += delta_y;
-			ray->map_y += step_y;
+			ray->map_y += ray->step_y;
 			ray->wall_dir = 1;
 		}
 		if (data->map.data[ray->map_y][ray->map_x] == '1')
@@ -80,16 +76,16 @@ static void	cast_single_ray(t_cub3d *data, t_ray *ray)
 
 	if (!ray->wall_dir)
 		ray->distance = fabs((ray->map_x - data->player.x + \
-			(1 - step_x) / 2) / ray_dir_x);
+			(1 - ray->step_x) / 2) / ray->dir_x);
 	else
 		ray->distance = fabs((ray->map_y - data->player.y + \
-			(1 - step_y) / 2) / ray_dir_y);
+			(1 - ray->step_y) / 2) / ray->dir_y);
 	ray->x_offset = current_x;
 	ray->y_offset = current_y;
 }
 
 /**
- * @brief Chooses the color from within the specified texture based on the 
+ * @brief Chooses the color from within the specified texture based on the
  * x and y axis, darkens the pixels on the N and S sides
  */
 int	get_color_from_texture(t_image texture, int x, int y, t_ray ray)
@@ -139,8 +135,9 @@ int	find_y(t_ray ray, int distance, int index)
 double	find_x(t_ray ray, t_player player)
 {
 	double	result = 0;
+	double	distance = 0;
 	// double test = player.y - ray.map_y / sin(ray.angle);
-	
+
 	// if (ray.wall_dir == 1)
 	// {
 	// 	result = player.y - ray.map_y - (cos(ray.angle) * ray.distance);
@@ -152,18 +149,35 @@ double	find_x(t_ray ray, t_player player)
 	// 	result = player.x - ray.map_x - (sin(ray.angle) * ray.distance);
 	// 	printf("test map x %d player %f offset %f the prev pme %f\n", ray.map_x, player.x, (sin(ray.angle) * ray.distance), ray.x_offset);
 	// }
-	
-	result = (ray.map_x + ray.map_y);
-	if (ray.wall_dir == 0)
-		result = (sin(ray.angle) * ray.distance);
-	else
-		result = (cos(ray.angle) * ray.distance);
-	if (result < 0)
-		result *= -1;
-	(void)player;
 
-	result = (result * 64);
-	return ((int)result % 64);
+	if (!ray.wall_dir)
+		distance = (ray.map_x - player.x + (1 - ray.step_x) / 2) / ray.dir_x;
+	else
+		distance = (ray.map_y - player.y + (1 - ray.step_y) / 2) / ray.dir_y;
+
+	if (ray.wall_dir)
+		result = player.x + distance * cos(ray.angle);
+	else
+		result = player.y + distance * sin(ray.angle);
+	result -= floor(result);
+
+	result = (int)(result * 64);
+	if ((ray.wall_dir && sin(ray.angle) < 0)
+		|| (!ray.wall_dir && cos(ray.angle) > 0))
+		result = 64 - result - 1;
+	return (result);
+
+	// result = (ray.map_x + ray.map_y);
+	// if (ray.wall_dir == 0)
+	// 	result = (sin(ray.angle) * distance);
+	// else
+	// 	result = (cos(ray.angle) * distance);
+	// if (result < 0)
+	// 	result *= -1;
+	// (void)player;
+
+	// result = (result * 64);
+	// return ((int)result % 64);
 }
 
 /**
