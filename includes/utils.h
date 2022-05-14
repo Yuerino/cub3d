@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 00:11:37 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/11 19:14:47 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/14 19:53:06 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,10 @@ void	exit_perror(char *err, t_cub3d *data);
 void	free_carray(char **array);
 int		carray_len(char **array);
 char	**carray_expand(char **array);
+
+int		get_color_from_texture(t_image texture, int x, int y, t_ray ray);
+int		find_y(t_ray ray, int distance, int index);
+double	find_x(t_ray ray, t_player player);
+t_image	choose_texture(t_cub3d *data, t_ray ray);
 
 #endif

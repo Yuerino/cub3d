@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:27:49 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/14 16:36:27 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/14 19:13:12 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ typedef struct s_ray
 	int		map_y;
 	int		wall_dir;
 	double	distance;
-	double	x_offset;
-	double	y_offset;
 }	t_ray;
 
 void	draw(t_cub3d *mlx);
