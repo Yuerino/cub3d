@@ -1,7 +1,7 @@
-NAME	= cub3d
+NAME	= cub3D
 
-WIN_WIDTH	= 1920
-WIN_HEIGHT	= 1080
+WIN_WIDTH	= 1600
+WIN_HEIGHT	= 900
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror $(DFLAGS) -g
@@ -14,19 +14,24 @@ X11_LIB			= /usr/X11/lib
 
 LFLAGS	= -L$(LIBFT_DIR) -L$(MINILIBX_DIR) -L$(X11_LIB) -lft -lmlx -lXext -lX11 -lm
 
-HEADERS	= cub3d.h input_handler.h utils.h
+HEADERS	= cub3d.h input_handler.h utils.h controls.h rendering.h
 IDIR	= includes/
 IFLAGS	= -I$(IDIR) -I$(LIBFT_DIR) -I$(MINILIBX_DIR) -I$(X11_INC)
 
-SRCS	= cub3d.c \
+SRCS	= cub3d.c srcs/controls.c srcs/mouse_controls.c \
 		$(addprefix $(IH_PATH),$(IH_SRCS)) \
-		$(addprefix $(UTIL_PATH),$(UTIL_SRCS))
+		$(addprefix $(UTIL_PATH),$(UTIL_SRCS)) \
+		$(addprefix $(RD_PATH),$(RD_SRCS))
 
 IH_PATH	= srcs/input_handler/
-IH_SRCS	= init.c read.c read_map.c
+IH_SRCS	= init.c read.c read_map.c validate_map.c free.c read_texture.c
+
+RD_PATH	= srcs/rendering/
+RD_SRCS	= putimg.c minimap.c cast_rays.c
 
 UTIL_PATH		= utils/
-UTIL_SRCS		= error.c carray.c image_dup.c is_color_valid.c is_ext_valid.c is_nbr.c
+UTIL_SRCS		= error.c carray.c image.c color.c is_ext_valid.c \
+					is_nbr.c put_pixel.c
 
 RM		= rm -f
 

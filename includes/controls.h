@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_color_valid.c                                   :+:      :+:    :+:   */
+/*   controls.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/10 18:48:56 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 23:03:03 by cthien-h         ###   ########.fr       */
+/*   Created: 2022/05/11 12:35:33 by cthien-h          #+#    #+#             */
+/*   Updated: 2022/05/12 08:37:16 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * @brief Check if RGB color is valid
- * @param color Integer array size of 3 that holds R, G, B value
- * @return 1 if valid otherwise 0
- */
-int	is_color_valid(int *color)
-{
-	int	i;
+#ifndef CONTROLS_H
+# define CONTROLS_H
 
-	i = 0;
-	while (i < 3)
-	{
-		if (color[i] < 0 || color[i] > 255)
-			return (0);
-		i++;
-	}
-	return (1);
-}
+// X11 Keysym
+// https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h
+# include <X11/keysym.h>
+
+typedef struct s_cub3d	t_cub3d;
+typedef struct s_player	t_player;
+
+int		close_game(t_cub3d *data);
+void	move_camera(t_cub3d *data, t_player *p, int key);
+
+int		catch_key(int key, t_cub3d *mlx);
+int		mouse_move(int x, int y, t_cub3d *data);
+
+#endif
