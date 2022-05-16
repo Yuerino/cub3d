@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 01:27:49 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 06:49:02 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/16 20:07:56 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_HANDLER_H
 # define INPUT_HANDLER_H
+# include <stdint.h> 
 
 typedef struct s_cub3d	t_cub3d;
 typedef struct s_map	t_map;
