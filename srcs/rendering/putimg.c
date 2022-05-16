@@ -6,44 +6,93 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 16:38:34 by sbienias          #+#    #+#             */
-/*   Updated: 2022/05/12 08:00:28 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/16 16:03:12 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /**
- * @note This function can be extracted to somewhere else
- * @brief Draw line from one point to another using DDA Algo
- * @param img_ptr Pointer of image to be drawn to
- * @param p1 Integer array size of 2 that has coordination of first point (x|y)
- * @param p2 Integer array size of 2 that has coordination of second point (x|y)
- * @param line_color Color of the line to be drawn
+ * @brief Chooses the color from within the specified texture based on the
+ * x and y axis, darkens the pixels on the N and S sides
+ * @return Color of the texture at (x|y)
  */
-void	draw_line(void *img_ptr, int p1[2], int p2[2], int line_color)
+int	get_color_from_texture(t_ray ray, int x, int y)
 {
-	double	x;
-	double	y;
-	double	delta_x;
-	double	delta_y;
-	int		steps;
+	char	*addr;
+	t_img	*texture_img;
 
-	x = p1[0];
-	y = p1[1];
-	delta_x = p2[0] - p1[0];
-	delta_y = p2[1] - p1[1];
-	if ((int)fabs(delta_x) > (int)fabs(delta_y))
-		steps = (int)fabs(delta_x);
-	else
-		steps = (int)fabs(delta_y);
-	delta_x /= steps;
-	delta_y /= steps;
-	while (steps > 0)
+	texture_img = (t_img *)(ray.wall_texture->img_ptr);
+	addr = texture_img->data + (y % texture_img->height * \
+		texture_img->size_line + x * (texture_img->bpp / 8));
+	if (ray.wall_dir)
+		return (*(unsigned int *)addr / 2 & 0b011111110111111101111111);
+	return (*(unsigned int *)addr);
+}
+
+/**
+ * @brief Find the y index of the texture depending on the line height
+ * @param wall_y Current y-coordinate of the wall
+ * @return y-coordinate of the texture
+ */
+int	find_texture_y(t_ray ray, int wall_y)
+{
+	int	wall_start_y;
+
+	wall_start_y = -ray.wall_height / 2 + WIN_HEIGHT / 2;
+	if (ray.wall_height > WIN_HEIGHT)
+		wall_y -= wall_start_y;
+	return ((int)roundf(1.0f * ray.wall_texture->height \
+		/ ray.wall_height * wall_y));
+}
+
+/**
+ * @brief Find the x index of the texture
+ * from player position and ray direction
+ * @return x-coordinate of the texture
+ */
+int	find_texture_x(t_ray ray, t_player player)
+{
+	double	result;
+	double	distance;
+
+	if (!ray.wall_dir)
 	{
-		ft_mlx_pixel_put(img_ptr, round(x), round(y), line_color);
-		x += delta_x;
-		y += delta_y;
-		steps--;
+		distance = (ray.map_x - player.x + (1 - ray.step_x) / 2) / ray.dir_x;
+		result = player.y + distance * ray.dir_y;
+	}
+	else
+	{
+		distance = (ray.map_y - player.y + (1 - ray.step_y) / 2) / ray.dir_y;
+		result = player.x + distance * ray.dir_x;
+	}
+	result -= floor(result);
+	result = (int)(result * 64);
+	if ((ray.wall_dir && ray.dir_y < 0)
+		|| (!ray.wall_dir && ray.dir_x > 0))
+		result = ray.wall_texture->width - result - 1;
+	return (result);
+}
+
+/**
+ * @brief Determine the texture to use depending on the
+ * side of the ray hit and wall-player relation
+ */
+void	choose_texture(t_cub3d *data, t_ray *ray)
+{
+	if (ray->wall_dir == 0)
+	{
+		if (data->player.x - ray->map_x < 0)
+			ray->wall_texture = &data->map.west;
+		else
+			ray->wall_texture = &data->map.east;
+	}
+	else
+	{
+		if (data->player.y - ray->map_y < 0)
+			ray->wall_texture = &data->map.north;
+		else
+			ray->wall_texture = &data->map.south;
 	}
 }
 

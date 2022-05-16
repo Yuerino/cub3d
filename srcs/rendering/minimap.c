@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 19:07:38 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/12 06:34:30 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/16 16:00:50 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,40 @@ void	put_square(void *img_ptr, int point[2], int color, int square_size)
 			x++;
 		}
 		y++;
+	}
+}
+
+/**
+ * @brief Draw line from one point to another using DDA Algo
+ * @param img_ptr Pointer of image to be drawn to
+ * @param p1 Integer array size of 2 that has coordination of first point (x|y)
+ * @param p2 Integer array size of 2 that has coordination of second point (x|y)
+ * @param line_color Color of the line to be drawn
+ */
+static void	draw_line(void *img_ptr, int p1[2], int p2[2], int line_color)
+{
+	double	x;
+	double	y;
+	double	delta_x;
+	double	delta_y;
+	int		steps;
+
+	x = p1[0];
+	y = p1[1];
+	delta_x = p2[0] - p1[0];
+	delta_y = p2[1] - p1[1];
+	if ((int)fabs(delta_x) > (int)fabs(delta_y))
+		steps = (int)fabs(delta_x);
+	else
+		steps = (int)fabs(delta_y);
+	delta_x /= steps;
+	delta_y /= steps;
+	while (steps > 0)
+	{
+		ft_mlx_pixel_put(img_ptr, round(x), round(y), line_color);
+		x += delta_x;
+		y += delta_y;
+		steps--;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:51:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 07:11:49 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/15 17:48:13 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include <mlx.h>
+# include <mlx_int.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>

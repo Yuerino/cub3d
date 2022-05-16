@@ -1,7 +1,7 @@
 NAME	= cub3D
 
-WIN_WIDTH	= 1920
-WIN_HEIGHT	= 1080
+WIN_WIDTH	= 1600
+WIN_HEIGHT	= 900
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror $(DFLAGS) -g

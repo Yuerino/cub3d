@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 02:11:53 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 15:28:40 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/16 16:02:30 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,9 @@ static void	cast_ray(t_cub3d *data, t_ray *ray)
  */
 static void	calc_wall_height(t_ray *ray)
 {
-	int	line_height;
-
-	line_height = (int)fabs(WIN_HEIGHT / ray->distance);
-	ray->wall_y[0] = -line_height / 2 + WIN_HEIGHT / 2;
-	ray->wall_y[1] = line_height / 2 + WIN_HEIGHT / 2;
+	ray->wall_height = (int)fabs(WIN_HEIGHT / ray->distance);
+	ray->wall_y[0] = -ray->wall_height / 2 + WIN_HEIGHT / 2;
+	ray->wall_y[1] = ray->wall_height / 2 + WIN_HEIGHT / 2;
 	if (ray->wall_y[0] < 0)
 		ray->wall_y[0] = 0;
 	if (ray->wall_y[1] >= WIN_HEIGHT)
@@ -90,23 +88,29 @@ static void	calc_wall_height(t_ray *ray)
 }
 
 /**
- * @todo add texture for wall instead of fixed color
- * @brief Draw a vertical line on screen with ceiling, floor and wall
+ * @brief Calculate wall height based on ray length and draw it
+ * to main image
  * @param x Current vertical stripe (x-coordinate) of the screen
  */
 static void	draw_vertical_line(t_cub3d *data, t_ray ray, int x)
 {
-	int	color;
 	int	y;
+	int	wall_y;
+	int	texture_x;
+	int	texture_color;
 
-	color = 0x0000FF;
-	if (ray.wall_dir)
-		color = color / 2;
+	choose_texture(data, &ray);
+	texture_x = find_texture_x(ray, data->player);
+	wall_y = 0;
 	y = 0;
 	while (y <= WIN_HEIGHT)
 	{
 		if (y >= ray.wall_y[0] && y <= ray.wall_y[1])
-			ft_mlx_pixel_put(data->main_img, x, y, color);
+		{
+			texture_color = get_color_from_texture(ray, texture_x, \
+				find_texture_y(ray, wall_y++));
+			ft_mlx_pixel_put(data->main_img, x, y, texture_color);
+		}
 		else if (y < ray.wall_y[0])
 			ft_mlx_pixel_put(data->main_img, x, y, data->map.floor_color);
 		else if (y > ray.wall_y[1])
