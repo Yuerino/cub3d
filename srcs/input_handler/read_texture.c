@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 06:42:12 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 07:41:00 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:12:49 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_texture_dup(t_cub3d *data, t_map *map, t_image *texture)
 		(map->west.filename, texture->filename, ft_strlen(texture->filename)))
 		|| (&map->east != texture && map->east.filename && !ft_strncmp \
 		(map->east.filename, texture->filename, ft_strlen(texture->filename))))
-		return (print_error("Error: Duplicated texture", data));
+		return (print_error("Error\nDuplicated texture", data));
 	return (1);
 }
 
@@ -47,10 +47,10 @@ int	get_texture(t_cub3d *data, char *line, t_image *texture)
 	if (!splited)
 		return (print_perror("ft_split", data));
 	if (carray_len(splited) != 2)
-		return (print_read_error(data, "Error: Invalid texture data",
+		return (print_read_error(data, "Error\nInvalid texture data",
 				NULL, splited));
 	if (!is_ext_valid(splited[1], ".xpm"))
-		return (print_read_error(data, "Error: Invalid texture file extension",
+		return (print_read_error(data, "Error\nInvalid texture file extension",
 				NULL, splited));
 	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, splited[1],
 			&texture->width, &texture->height);

@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 22:17:55 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 06:48:41 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:13:32 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	get_color(t_cub3d *data, char *line, long long *color)
 	if (!splited)
 		return (print_perror("ft_split", data));
 	if (carray_len(splited) != 2)
-		return (print_read_error(data, "Error: Invalid color data",
+		return (print_read_error(data, "Error\nInvalid color data",
 				NULL, splited));
 	color_split = ft_split(splited[1], ',');
 	free_carray(splited);
@@ -57,13 +57,13 @@ static int	get_color(t_cub3d *data, char *line, long long *color)
 	if (carray_len(color_split) != 3
 		|| !str_rgb_to_color(color_split[0], color_split[1], \
 			color_split[2], color))
-		return (print_read_error(data, "Error: Invalid color data",
+		return (print_read_error(data, "Error\nInvalid color data",
 				NULL, color_split));
 	free_carray(color_split);
 	if ((&data->map.floor_color == color && data->map.ceiling_color == *color)
 		|| (&data->map.ceiling_color == color
 			&& data->map.floor_color == *color))
-		return (print_error("Error: Duplicated color", data));
+		return (print_error("Error\nDuplicated color", data));
 	return (1);
 }
 
@@ -93,7 +93,7 @@ static int	process_line(t_cub3d *data, char *line, int fd)
 		&& data->map.floor_color != INT64_MAX
 		&& data->map.ceiling_color != INT64_MAX)
 		return (read_map(data, line, fd));
-	print_error("Error: Invalid map data", data);
+	print_error("Error\nInvalid map data", data);
 	free(line);
 	return (0);
 }
@@ -110,7 +110,7 @@ void	read_file_data(t_cub3d *data, char *filename)
 	int		ret;
 
 	if (!is_ext_valid(filename, ".cub"))
-		exit_error("Error: Wrong file format!", data);
+		exit_error("Error\nWrong file format!", data);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		exit_perror(filename, data);
