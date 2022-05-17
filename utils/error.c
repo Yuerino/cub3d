@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:55:02 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/10 21:14:37 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:23:46 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	print_error(char *err, t_cub3d *data)
  */
 int	print_perror(char *err, t_cub3d *data)
 {
+	ft_putendl_fd("Error", STDERR_FILENO);
 	perror(err);
 	if (data)
 		free_data(data);
