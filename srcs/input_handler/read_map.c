@@ -6,7 +6,7 @@
 /*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 19:13:54 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/17 16:12:32 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:27:13 by cthien-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static char	set_player_pos(t_player *player, char c, int x)
 	else if (c == 'S')
 		player->dir_y = -1.0f;
 	else if (c == 'E')
-		player->dir_x = 1.0f;
-	else if (c == 'W')
 		player->dir_x = -1.0f;
+	else if (c == 'W')
+		player->dir_x = 1.0f;
 	return ('0');
 }
 
