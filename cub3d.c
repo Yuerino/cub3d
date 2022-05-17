@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cthien-h <cthien-h@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: sbienias <sbienias@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 18:50:13 by cthien-h          #+#    #+#             */
-/*   Updated: 2022/05/13 15:29:17 by cthien-h         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:07:43 by sbienias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 		exit_error("Usage: ./cub3d [map file]", NULL);
 	init_cub3d(&data, argv[1]);
 	mlx_hook(data.win, 17, 0, close_game, &data);
-	mlx_key_hook(data.win, catch_key, &data);
+	mlx_hook(data.win, 2, 1L<<0, catch_key, &data);
 	mlx_expose_hook(data.win, redraw, &data);
 	mlx_mouse_hide(data.mlx, data.win);
 	mlx_hook(data.win, 6, (1L << 6), mouse_move, &data);
